@@ -19,9 +19,9 @@ import (
 	macaroon "gopkg.in/macaroon.v2"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/macaroons"
+	"github.com/ltcsuite/lnd/lnrpc"
+	"github.com/ltcsuite/lnd/macaroons"
+	"github.com/ltcsuite/ltcutil"
 	"github.com/roasbeef/lseed/seed"
 )
 
@@ -52,7 +52,7 @@ var (
 )
 
 var (
-	lndHomeDir = btcutil.AppDataDir("lnd", false)
+	lndHomeDir = ltcutil.AppDataDir("lnd", false)
 
 	maxMsgRecvSize = grpc.MaxCallRecvMsgSize(1 * 1024 * 1024 * 50)
 )
@@ -178,24 +178,7 @@ func main() {
 	netViewMap := make(map[string]*seed.ChainView)
 
 	if *bitcoinNodeHost != "" && *bitcoinTLSPath != "" && *bitcoinMacPath != "" {
-		log.Infof("Creating BTC chain view")
-
-		lndNode, err := initLightningClient(
-			*bitcoinNodeHost, *bitcoinTLSPath, *bitcoinMacPath,
-		)
-		if err != nil {
-			panic(fmt.Sprintf("unable to connect to btc lnd: %v", err))
-		}
-
-		nView := seed.NewNetworkView("bitcoin")
-		go poller(lndNode, nView)
-
-		log.Infof("BTC chain view active")
-
-		netViewMap[""] = &seed.ChainView{
-			NetView: nView,
-			Node:    lndNode,
-		}
+		panic(fmt.Sprintf("this release of lseed does NOT support bitcoin"))
 
 	}
 
@@ -212,14 +195,14 @@ func main() {
 		nView := seed.NewNetworkView("litecoin")
 		go poller(lndNode, nView)
 
-		netViewMap["ltc."] = &seed.ChainView{
+		netViewMap[""] = &seed.ChainView{
 			NetView: nView,
 			Node:    lndNode,
 		}
 
 	}
 	if *testNodeHost != "" && *testTLSPath != "" && *testMacPath != "" {
-		log.Infof("Creating BTC testnet chain view")
+		log.Infof("Creating LTC testnet chain view")
 
 		lndNode, err := initLightningClient(
 			*testNodeHost, *testTLSPath, *testMacPath,
@@ -231,7 +214,7 @@ func main() {
 		nView := seed.NewNetworkView("testnet")
 		go poller(lndNode, nView)
 
-		log.Infof("TBCT chain view active")
+		log.Infof("TLTC chain view active")
 
 		netViewMap["test."] = &seed.ChainView{
 			NetView: nView,

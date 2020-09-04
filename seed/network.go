@@ -12,7 +12,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/lightningnetwork/lnd/lnrpc"
+	"github.com/ltcsuite/lnd/lnrpc"
 )
 
 const (
@@ -108,7 +108,7 @@ func (nv *NetworkView) RandomSample(query NodeType, count int) []Node {
 		}
 	}
 
-	fmt.Println("Num reachable nodes: %v", len(nv.reachableNodes))
+	fmt.Printf("Num reachable nodes: %v\n", len(nv.reachableNodes))
 
 	return result
 }

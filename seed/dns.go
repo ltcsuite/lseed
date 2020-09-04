@@ -18,8 +18,8 @@ import (
 	"syscall"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcutil/bech32"
+	"github.com/ltcsuite/ltcd/btcec"
+	"github.com/ltcsuite/ltcutil/bech32"
 	"github.com/miekg/dns"
 )
 
